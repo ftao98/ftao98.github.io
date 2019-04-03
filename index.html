@@ -300,7 +300,54 @@
       
         
           
-            
+            <p>项目需要，接触下Fortran，写点笔记；</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>介绍下Fortran吧，Fortran源于Formula Translation（公式翻译）；是世界上<strong>最早</strong>出现的计算机高级程序设计语言。其载数值、科学和工程计算领域发挥着重要作用。（项目就是科学计算软件，so）</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p><strong>mark一下，fortran语言是忽略大小写的，即Fortran和fortran是一样的！</strong></p>
+<p>Fortran中的过程分为<strong>子程序（子过程subroutine）</strong>和<strong>函数子程序（function subprogram）</strong>；</p>
+<h3 id="子程序（子过程subroutine）"><a href="#子程序（子过程subroutine）" class="headerlink" title="子程序（子过程subroutine）"></a>子程序（子过程subroutine）</h3><p>子过程定义格式如下：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">subroutine</span></span> <span class="keyword">name</span></span><br><span class="line"><span class="comment">!形参定义</span></span><br><span class="line"><span class="keyword">integer</span> <span class="keyword">intent</span>(<span class="keyword">in</span>) a</span><br><span class="line"><span class="keyword">real</span>:: <span class="keyword">intent</span>(<span class="keyword">out</span>) b</span><br><span class="line">real8::<span class="keyword">intent</span>(inout) c</span><br><span class="line"><span class="comment">!过程内变量定义</span></span><br><span class="line"><span class="keyword">integer</span> d</span><br><span class="line"><span class="comment">!执行部分</span></span><br><span class="line"><span class="comment">!函数返回</span></span><br><span class="line"><span class="keyword">end</span> <span class="function"><span class="keyword">subroutine</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>关键字subroutine定义子过程，后接过程名。</li>
+<li>end subroutine结束函数并返回调用函数；返回到调用函数也可以使用<strong>return</strong>，但通常很少用，当过程中存在判断等情况可能会使用return返回调用函数。</li>
+<li>子过程的形式参数和C语言中的区别在于，在C中，形参类型是在形参列表中声明的，且不需要指定参数是输入参数还是输出参数或即时输入参数又是输出参数。而在Fortran中，形参类型是在<strong>子过程中声明</strong>的，且需要指通过关键字<strong>INTENT</strong>指定形参是输入、输出or输入输出。如代码示例中所示：</li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INTEGER</span> <span class="keyword">INTENT</span>(<span class="keyword">IN</span>) a</span><br><span class="line"><span class="keyword">REAL</span>:: <span class="keyword">INTENT</span>(<span class="keyword">OUT</span>) b</span><br><span class="line">REAL8:: <span class="keyword">INTENT</span>(INOUT) c</span><br></pre></td></tr></table></figure>
+<p>表示a是输入参数，b是输出参数，c既是输入参数又是输出参数。</p>
+<ul>
+<li><strong>INTENT</strong>仅对形式参数有效。子过程由程序中的call调用，有多个返回结果；【和C语言的函数不同】</li>
+</ul>
+<p>子过程不能被自身调用，除非声明递归类型（<strong>recursive</strong>）；【C中函数不用声明】</p>
+<ul>
+<li><p>子过程由程序中的call语句调用</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">call</span> sub_name(a,b,c)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="函数子程序（function-subprogram）"><a href="#函数子程序（function-subprogram）" class="headerlink" title="函数子程序（function subprogram）"></a>函数子程序（function subprogram）</h3><p>函数子程序又分为两部分：<strong>内部函数、用户自定义函数</strong></p>
+<p>内部函数：fortran内部实现的函数如：sin(x)等</p>
+<p>用户自定义函数：用户自己实现的函数</p>
+<p>函数子程序与子过程的<strong>区别</strong>在于：</p>
+<ul>
+<li>函数子程序由function定义；</li>
+<li>仅通过函数名返回单个数值；</li>
+<li>调用方式不同，在程序中引入函数名调用。</li>
+<li>函数调用时，参数列表为空时，括号可以省略</li>
+<li>下面是定义函数子程序的格式：</li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span></span> fuc_name</span><br><span class="line"><span class="comment">!执行部分</span></span><br><span class="line"><span class="keyword">end</span> <span class="function"><span class="keyword">function</span></span></span><br></pre></td></tr></table></figure>
+<p>fortran中函数形参是通过地址进行传递的，与C语言中通过引用方式传递的，没有像C语言中的传值方式，fortran中为防止实参在子过程或函数子程序中被改变可通过将参数类型定义输入参数即[<strong>intent(in)</strong>]。</p>
+<h3 id="过程参数"><a href="#过程参数" class="headerlink" title="过程参数"></a>过程参数</h3><p>在fortran中，与C语言类似，函数名与变量相同，都关联了地址，因此也可以作为函数参数进行传递。传递方式与变量传递类似。只是在需要在调用和被调用函数中用<strong>external</strong>关键字声明，告诉编译器该变量是个函数。</p>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">module</span> module_name</span><br><span class="line"><span class="keyword">save</span></span><br><span class="line"><span class="comment">!数据定义</span></span><br><span class="line"><span class="keyword">contains</span></span><br><span class="line"><span class="comment">!过程定义</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">module</span></span><br></pre></td></tr></table></figure>
+<p>模块有点像C++语言中的类（<strong>class</strong>），可以在模块内定义变量和过程，在模块内可以进行数据的定义和初始化。</p>
+<p>在模块中定义过程需要定义在数据定义之后且由contains包含，以表示下面是过程的定义；</p>
+<h3 id="模块的调用"><a href="#模块的调用" class="headerlink" title="模块的调用"></a>模块的调用</h3><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>称作use关联，必须出现在其他语句之前（除program,subroutine或注释语句）</p>
+<p>因此，在调用函数中，变量等名字不要和调用的模块中的变量名和过程名冲突。</p>
+<p>为什么有了过程还要引入模块过程呢？</p>
+<p>​    如果过程被调用时，参数类型出现不一致，在程序编译运行过程中可能会将错就错；而模块中的过程会检查类型，若不一致会报错。</p>
+<p>​    其他的好处有待深究。</p>
+<p>前方高铁到站，The end</p>
+<p>回家高铁上写的，可能有些瑕疵。</p>
+
           
         
       
